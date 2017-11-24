@@ -15,16 +15,16 @@ class Ratios:
     EXPOSITION = 29
 
 
-def SetServerInfo(url, creds):
+def setServerInfo(url, creds):
     global AUTH
     global BASEURL
     AUTH = creds
     BASEURL = url
 
-def GetServerInfo():
+def getServerInfo():
     return (BASEURL, AUTH)
 
-def GetAllAssets():
+def getAllAssets():
     try:
         r = requests.get(BASEURL + '/asset', auth=AUTH, verify=False)
         return json.loads(r.text)
@@ -33,7 +33,7 @@ def GetAllAssets():
         print("[GetAllAssets] Unhandled exception: " + str(Err))
         raise
 
-def GetAsset(assetId):
+def getAsset(assetId):
     try:
         r = requests.get(BASEURL + '/asset/' + str(assetId),
                          auth=AUTH,
@@ -44,7 +44,7 @@ def GetAsset(assetId):
         print("[GetAsset] Unhandled exception: " + str(Err))
         raise
 
-def GetAssetQuote(assetId, startDate=None, endDate=None):
+def getAssetQuote(assetId, startDate=None, endDate=None):
     par = {}
     if startDate is not None:
         par["start_date"] = startDate
@@ -63,7 +63,7 @@ def GetAssetQuote(assetId, startDate=None, endDate=None):
         raise
 
 
-def GetRatios():
+def getRatios():
     try:
         r = requests.get(BASEURL + '/ratio',
                          auth=AUTH,
@@ -74,7 +74,7 @@ def GetRatios():
         print("[GetRatios] Unhandled exception: " + str(Err))
         raise
 
-def ComputeRatios(portfolioId, rats=[Ratios.SHARPE]):
+def computeRatios(portfolioId, rats=[Ratios.SHARPE]):
     try:
         data = {"asset": portfolioId, "ratio": rats}
         jdata = json.dumps(data)
@@ -89,7 +89,7 @@ def ComputeRatios(portfolioId, rats=[Ratios.SHARPE]):
         print("[ComputeRatios] Unhandled exception: " + str(Err))
         raise
 
-def GetPortfolio(portfolioId):
+def getPortfolio(portfolioId):
     path = '/portfolio/{}/dyn_amount_compo'.format(portfolioId)
     try:
         r = requests.get(BASEURL + path,
@@ -102,7 +102,7 @@ def GetPortfolio(portfolioId):
         raise
 
 
-def SetPortfolio(portfolioId, portfolioData):
+def setPortfolio(portfolioId, portfolioData):
     path = '/portfolio/{}/dyn_amount_compo'.format(portfolioId)
     try:
         r = requests.put(BASEURL + path,
