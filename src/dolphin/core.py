@@ -88,3 +88,28 @@ def ComputeRatios(portfolioId, rats=[Ratios.SHARPE]):
     except BaseException as Err:
         print("[ComputeRatios] Unhandled exception: " + str(Err))
         raise
+
+def GetPortfolio(portfolioId):
+    path = '/portfolio/{}/dyn_amount_compo'.format(portfolioId)
+    try:
+        r = requests.get(BASEURL + path,
+                         auth=AUTH,
+                         verify=False)
+        return json.loads(r.text)
+
+    except BaseException as Err:
+        print("[GetPortfolio] Unhandled exception: " + str(Err))
+        raise
+
+
+def SetPortfolio(portfolioId, portfolioData):
+    path = '/portfolio/{}/dyn_amount_compo'.format(portfolioId)
+    try:
+        r = requests.put(BASEURL + path,
+                         auth=AUTH,
+                         data=portfolioData,
+                         verify=False)
+
+    except BaseException as Err:
+        print("[SetPortfolio] Unhandled exception: " + str(Err))
+        raise
