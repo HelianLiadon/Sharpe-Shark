@@ -44,6 +44,25 @@ def GetAsset(AssetId):
         print("[GetAsset] Unhandled exception: " + str(Err))
         raise
 
+def GetAssetQuote(AssetId, StartDate=None, EndDate=None):
+    par = {}
+    if StartDate is not None:
+        par["start_date"] = StartDate
+    if EndDate is not None:
+        par["end_date"] = EndDate
+
+    try:
+        r = requests.get(BASEURL + '/asset/{}/quote'.format(AssetId),
+                         auth=AUTH,
+                         params=par,
+                         verify=False)
+        return json.loads(r.text)
+
+    except BaseException as Err:
+        print("[GetAssetQuote] Unhandled exception: " + str(Err))
+        raise
+
+
 def GetRatios():
     try:
         r = requests.get(BASEURL + '/ratio',
