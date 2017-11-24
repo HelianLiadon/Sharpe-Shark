@@ -33,9 +33,9 @@ def GetAllAssets():
         print("[GetAllAssets] Unhandled exception: " + str(Err))
         raise
 
-def GetAsset(AssetId):
+def GetAsset(assetId):
     try:
-        r = requests.get(BASEURL + '/asset/' + str(AssetId),
+        r = requests.get(BASEURL + '/asset/' + str(assetId),
                          auth=AUTH,
                          verify=False)
         return json.loads(r.text)
@@ -44,15 +44,15 @@ def GetAsset(AssetId):
         print("[GetAsset] Unhandled exception: " + str(Err))
         raise
 
-def GetAssetQuote(AssetId, StartDate=None, EndDate=None):
+def GetAssetQuote(assetId, startDate=None, endDate=None):
     par = {}
-    if StartDate is not None:
-        par["start_date"] = StartDate
-    if EndDate is not None:
-        par["end_date"] = EndDate
+    if startDate is not None:
+        par["start_date"] = startDate
+    if endDate is not None:
+        par["end_date"] = endDate
 
     try:
-        r = requests.get(BASEURL + '/asset/{}/quote'.format(AssetId),
+        r = requests.get(BASEURL + '/asset/{}/quote'.format(assetId),
                          auth=AUTH,
                          params=par,
                          verify=False)
@@ -74,9 +74,9 @@ def GetRatios():
         print("[GetRatios] Unhandled exception: " + str(Err))
         raise
 
-def ComputeRatios(PortfolioId, Rats=[Ratios.SHARPE]):
+def ComputeRatios(portfolioId, rats=[Ratios.SHARPE]):
     try:
-        data = {"asset": PortfolioId, "ratio": Rats}
+        data = {"asset": portfolioId, "ratio": rats}
         jdata = json.dumps(data)
         r = requests.post(BASEURL + "/ratio/invoke",
                          data=jdata,
